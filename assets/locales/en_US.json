@@ -1,0 +1,40 @@
+{
+  "utility": {
+    "ok": "OK",
+    "close": "Close",
+    "cancel": "Cancel",
+    "loadings": "Loading...",
+    "dialog_success": "Success",
+    "dialog_warning": "Warning",
+    "dialog_error": "Error",
+    "dialog_error_detail": "An error occurred, please try again",
+    "dialog_logout": "Do you want to logout?"
+  },
+  "button": {
+    "login": "Login",
+    "create_account": "Create an Account",
+    "sign_up": "Sign Up",
+    "switch_language_th": "TH",
+    "switch_language_en": "EN"
+  },
+  "pages": {
+    "login": {
+      "title": "Login",
+      "sub_title": "Add your details to login",
+      "to_register": "Don't have an Account?"
+    },
+    "register": {
+      "title": "Sign Up",
+      "sub_title": "Add your details to sign up",
+      "to_login": "Already have an Account?"
+    }
+  },
+  "form": {
+    "name": "Name",
+    "email": "Email",
+    "mobile": "Mobile No",
+    "address": "Address",
+    "password": "Password",
+    "confirm_password": "Confirm Password"
+  }
+}

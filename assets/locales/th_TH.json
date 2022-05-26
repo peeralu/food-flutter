@@ -1,0 +1,40 @@
+{
+  "utility": {
+    "ok": "ตกลง",
+    "close": "ปิด",
+    "cancel": "ยกเลิก",
+    "loadings": "กำลังโหลด...",
+    "dialog_success": "สำเร็จ",
+    "dialog_warning": "คำเตือน",
+    "dialog_error": "ข้อผิดพลาด",
+    "dialog_error_detail": "เกิดข้อผิดพลาด โปรดลองอีกครั้ง",
+    "dialog_logout": "คุณต้องการออกจากระบบใช่หรือไม่"
+  },
+  "button": {
+    "login": "เข้าสู่ระบบ",
+    "create_account": "สร้างบัญชี",
+    "sign_up": "ลงชื่อ",
+    "switch_language_th": "TH",
+    "switch_language_en": "EN"
+  },
+  "pages": {
+    "login": {
+      "title": "เข้าสู่ระบบ",
+      "sub_title": "เพิ่มรายละเอียดของคุณเพื่อเข้าสู่ระบบ",
+      "to_register": "ไม่มีบัญชี?"
+    },
+    "register": {
+      "title": "ลงชื่อ",
+      "sub_title": "เพิ่มรายละเอียดของคุณเพื่อลงทะเบียน",
+      "to_login": "มีบัญชีอยู่แล้ว?"
+    }
+  },
+  "form": {
+    "name": "ชื่อ",
+    "email": "อีเมล",
+    "mobile": "เบอร์มือถือ",
+    "address": "ที่อยู่",
+    "password": "รหัสผ่าน",
+    "confirm_password": "ยืนยันรหัสผ่าน"
+  }
+}
