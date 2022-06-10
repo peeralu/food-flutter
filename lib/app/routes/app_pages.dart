@@ -8,10 +8,10 @@ import '../modules/menu/menu_binding.dart';
 import '../modules/menu/menu_view.dart';
 import '../modules/register/register_binding.dart';
 import '../modules/register/register_view.dart';
+import '../modules/sliver_list/sliver_list_binding.dart';
+import '../modules/sliver_list/sliver_list_view.dart';
 import '../modules/splash/splash_binding.dart';
 import '../modules/splash/splash_view.dart';
-import '../modules/testest/testest_binding.dart';
-import '../modules/testest/testest_view.dart';
 import '../modules/welcome/welcome_binding.dart';
 import '../modules/welcome/welcome_view.dart';
 
@@ -55,9 +55,9 @@ class AppPages {
       transitionDuration: Duration(milliseconds: 1000),
     ),
     GetPage(
-      name: _Paths.TESTEST,
-      page: () => TestestView(),
-      binding: TestestBinding(),
+      name: _Paths.SLIVER_LIST,
+      page: () => SliverListView(),
+      binding: SliverListBinding(),
     ),
   ];
 }

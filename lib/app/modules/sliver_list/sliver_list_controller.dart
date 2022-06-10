@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-class TestestController extends GetxController {
-  //TODO: Implement TestestController
+class SliverListController extends GetxController {
+  //TODO: Implement SliverListController
 
   final count = 0.obs;
   @override

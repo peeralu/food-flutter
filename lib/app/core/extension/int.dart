@@ -11,3 +11,9 @@ extension FormatInt on int {
     return NumberFormat("#,###").format(this);
   }
 }
+
+extension FormatString on String? {
+  String get defaultData {
+    return this ?? "";
+  }
+}

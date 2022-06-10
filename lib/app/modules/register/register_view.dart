@@ -33,6 +33,13 @@ class RegisterView extends GetView<RegisterController> {
                 ),
                 verticalSpaceXL,
                 _toLoginView(),
+                Container(
+                  color: AppColors.black87,
+                  decoration: BoxDecoration(
+                    borderRadius: AppBorderRadius.m,
+                    boxShadow: AppShadow.m,
+                  ),
+                )
               ],
             ),
           ),

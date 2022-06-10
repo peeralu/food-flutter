@@ -4,8 +4,8 @@ import 'widget/default_dialog.dart';
 
 class CustomDialog {
   static void logout({
-    GestureTapCallback? onClose,
-    GestureTapCallback? onConfirm,
+    void Function()? onClose,
+    void Function()? onConfirm,
   }) async {
     return Get.dialog(
       DefaultDialog(
@@ -17,7 +17,7 @@ class CustomDialog {
             size: spaceXXXL,
           ),
         ),
-        headerTitle: LocaleKeys.utility_dialog_logout.tr,
+        headerSubTitle: LocaleKeys.utility_dialog_logout.tr,
         bodyBackgroundColor: AppColors.lightGray.withOpacity(0.5),
         buttonOne: AppButtonWidget.white(
           title: LocaleKeys.utility_cancel.tr,

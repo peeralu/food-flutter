@@ -1,7 +1,7 @@
 import 'package:food/app/data/models/request/base_request.dart';
 import 'package:food/app/data/models/response/auth.dart';
 
-class LoginRequest with BaseRequest {
+class LoginRequest extends BaseRequest {
   @override
   MethodRequest get method => MethodRequest.post;
 

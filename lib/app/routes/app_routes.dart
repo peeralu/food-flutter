@@ -10,7 +10,7 @@ abstract class Routes {
   static const WELCOME = _Paths.WELCOME;
   static const MENU = _Paths.MENU;
   static const DETAIL = _Paths.DETAIL;
-  static const TESTEST = _Paths.TESTEST;
+  static const SLIVER_LIST = _Paths.SLIVER_LIST;
 }
 
 abstract class _Paths {
@@ -22,5 +22,5 @@ abstract class _Paths {
   static const WELCOME = '/welcome';
   static const MENU = '/menu';
   static const DETAIL = '/detail';
-  static const TESTEST = '/testest';
+  static const SLIVER_LIST = '/sliver-list';
 }

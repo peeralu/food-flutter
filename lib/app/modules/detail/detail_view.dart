@@ -55,29 +55,20 @@ class DetailView extends GetView<DetailController> {
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                margin: EdgeInsets.only(right: spaceS),
-                child: Image.asset(
-                  "assets/images/favorite_active.png",
-                  width: spaceXXXXL,
-                ),
-              ),
-            ),
+            _favoriteWidget(),
             Align(
               alignment: Alignment.topLeft,
               child: SafeArea(
-                child: GestureDetector(
+                child: InkWell(
                   onTap: controller.router.toBack,
                   child: Container(
                     margin: EdgeInsets.only(top: spaceM, left: spaceM),
                     child: CircleAvatar(
-                      backgroundColor: AppColors.white.withOpacity(0.5),
+                      backgroundColor: AppColors.black.withOpacity(0.2),
                       radius: spaceL,
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: spaceM),
-                        child: Icon(Icons.arrow_back_ios, color: AppColors.black),
+                        child: Icon(Icons.arrow_back_ios, color: AppColors.white),
                       ),
                     ),
                   ),
@@ -88,5 +79,37 @@ class DetailView extends GetView<DetailController> {
         );
       }),
     );
+  }
+
+  Widget _favoriteWidget() {
+    if (controller.detail.value.isFavorite ?? false) {
+      return InkWell(
+        onTap: controller.onFavorite,
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Container(
+            margin: EdgeInsets.only(right: spaceS),
+            child: Image.asset(
+              "assets/images/favorite_active.png",
+              width: spaceXXXXL,
+            ),
+          ),
+        ),
+      );
+    } else {
+      return InkWell(
+        onTap: controller.onFavorite,
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Container(
+            margin: EdgeInsets.only(right: spaceS),
+            child: Image.asset(
+              "assets/images/favorite.png",
+              width: spaceXXXXL,
+            ),
+          ),
+        ),
+      );
+    }
   }
 }

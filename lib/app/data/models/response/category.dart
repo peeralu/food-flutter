@@ -55,19 +55,23 @@ class Menu {
   @HiveField(2)
   String? image;
 
+  @HiveField(5)
+  String? detail;
+
   @HiveField(3)
   double? starRating;
 
   @HiveField(4)
   String? category;
 
-  Menu({this.id, this.name, this.image, this.starRating, this.category});
+  Menu({this.id, this.name, this.image, this.detail, this.starRating, this.category});
 
   Menu.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     image = json['image'];
-    starRating = json['starRating'];
+    detail = json['detail'];
+    starRating = json['starRating'].toDouble();
     category = json['category'];
   }
 
@@ -76,6 +80,7 @@ class Menu {
     data['id'] = this.id;
     data['name'] = this.name;
     data['image'] = this.image;
+    data['detail'] = this.detail;
     data['starRating'] = this.starRating;
     data['category'] = this.category;
     return data;

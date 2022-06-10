@@ -63,6 +63,7 @@ class MenuAdapter extends TypeAdapter<Menu> {
       id: fields[0] as int?,
       name: fields[1] as String?,
       image: fields[2] as String?,
+      detail: fields[5] as String?,
       starRating: fields[3] as double?,
       category: fields[4] as String?,
     );
@@ -71,13 +72,15 @@ class MenuAdapter extends TypeAdapter<Menu> {
   @override
   void write(BinaryWriter writer, Menu obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(2)
       ..write(obj.image)
+      ..writeByte(5)
+      ..write(obj.detail)
       ..writeByte(3)
       ..write(obj.starRating)
       ..writeByte(4)

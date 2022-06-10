@@ -7,6 +7,8 @@ class InputFieldWidget extends StatelessWidget {
     this.initialValue,
     this.placeholder,
     this.obscureText = false,
+    this.prefix,
+    this.suffix,
     this.validator,
     this.keyboardType,
     this.inputFormatters,
@@ -18,6 +20,8 @@ class InputFieldWidget extends StatelessWidget {
   final String? initialValue;
   final String? placeholder;
   final bool obscureText;
+  final Widget? prefix;
+  final Widget? suffix;
   final FormFieldValidator<String>? validator;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
@@ -39,6 +43,8 @@ class InputFieldWidget extends StatelessWidget {
         labelText: placeholder,
         filled: true,
         fillColor: AppColors.lightGray.withOpacity(0.35),
+        prefixIcon: prefix,
+        suffixIcon: suffix,
         contentPadding: EdgeInsets.symmetric(horizontal: spaceXL, vertical: spaceM),
         border: OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.lightGray),

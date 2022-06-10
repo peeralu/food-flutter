@@ -2,7 +2,7 @@ import 'package:food/app/core/theme/theme.dart';
 import 'package:food/app/data/models/response/category.dart';
 import 'package:food/app/modules/menu/menu_controller.dart';
 
-class CategoryListWidget extends GetView<MenuController> {
+class CategoryListWidget extends StatelessWidget {
   const CategoryListWidget({
     required this.category,
     this.isSelect = false,

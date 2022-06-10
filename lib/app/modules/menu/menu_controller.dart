@@ -2,56 +2,55 @@ import 'package:food/app/core/theme/dialog/custom_dialog.dart';
 import 'package:food/app/core/theme/theme.dart';
 import 'package:food/app/data/models/response/category.dart';
 import 'package:food/app/data/repository/auth_repository.dart';
-import 'package:food/app/data/repository/food_repository.dart';
+import 'package:food/app/modules/menu/bloc/food_cubit.dart';
 
+import 'bloc/category_cubit.dart';
 import 'menu_reouter.dart';
 
-class MenuController extends AppController<MenuRouter> with StateMixin<List<Category>> {
+class MenuController extends AppController<MenuRouter> {
   final _authRepository = AuthRepository.instead;
-  final _foodRepository = FoodRepository.instead;
-
-  var currentCategory = 0;
-  final categories = <Category>[].obs;
-  final menu = <Menu>[].obs;
-  final filterMenu = <Menu>[].obs;
-  final titleCategory = "".obs;
+  final formKey = GlobalKey<FormBuilderState>();
+  final categoryName = "".obs;
 
   @override
   void onInit() {
     super.onInit();
-    fetchCatefory();
   }
 
   @override
   void onReady() {
     super.onReady();
+    fetchCatefory();
   }
 
   @override
   void onClose() {}
 
   fetchCatefory() async {
-    change(null, status: RxStatus.loading());
-    final response = await _foodRepository.fetchList();
+    await CategoryCubit.instead.fetchCatefory();
+    onSelect(index: 0);
+  }
 
-    if (response.isSuccessAndHasData) {
-      categories.value = response.data ?? [];
-      titleCategory.value = categories.first.name ?? "";
-      menu.value = categories.first.menu ?? [];
-      change(categories, status: RxStatus.success());
+  onSearch(String? search) {
+    if (search == null) {
+      formKey.currentState?.reset();
+      KeyboardService.hide();
+    }
+    if (search != null && search.isNotEmpty) {
+      CategoryCubit.instead.hidden(hidden: true);
+      final menus = CategoryCubit.instead.fetchSearch(search: search);
+      FoodCubit.instead.updateData(menus: menus);
     } else {
-      await _authRepository.delete();
-      router.toWelcomeView();
-      change(null, status: RxStatus.error("adsadsadsa"));
+      CategoryCubit.instead.hidden(hidden: false);
+      final menus = CategoryCubit.instead.fetchMenus();
+      FoodCubit.instead.updateData(menus: menus);
     }
   }
 
   onSelect({required int index}) {
-    currentCategory = index;
-    final category = categories[index];
-    titleCategory.value = category.name ?? "";
-    menu.value = category.menu ?? [];
-    change(categories, status: RxStatus.success());
+    CategoryCubit.instead.updateIndex(current: index);
+    final menus = CategoryCubit.instead.fetchMenus();
+    FoodCubit.instead.updateData(menus: menus);
   }
 
   void onDetail({required Menu menu}) {
