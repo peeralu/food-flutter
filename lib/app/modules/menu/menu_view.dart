@@ -7,6 +7,9 @@ import 'widget/category_list_widget.dart';
 import 'widget/food_list_widget.dart';
 
 class MenuView extends GetView<MenuController> {
+  final categoryCubit = Get.find<CategoryCubit>();
+  final foodCubit = Get.find<FoodCubit>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +73,7 @@ class MenuView extends GetView<MenuController> {
 
   Widget _categoryWidget() {
     return BlocBuilder<CategoryCubit, CategoryState>(
-      bloc: CategoryCubit.instead,
+      bloc: categoryCubit,
       builder: (context, state) {
         return state.when(
           hidden: () {
@@ -120,7 +123,7 @@ class MenuView extends GetView<MenuController> {
 
   Widget _titleCategoryWidget() {
     return BlocBuilder<CategoryCubit, CategoryState>(
-      bloc: CategoryCubit.instead,
+      bloc: categoryCubit,
       builder: (context, state) {
         return state.maybeWhen(
           loading: () {
@@ -148,7 +151,7 @@ class MenuView extends GetView<MenuController> {
             return Container(
               height: 40,
               padding: EdgeInsets.symmetric(horizontal: spaceM),
-              child: CategoryCubit.instead.fetchCategoryName().titleCategory,
+              child: categoryCubit.fetchCategoryName().titleCategory,
             );
           },
         );
@@ -158,7 +161,7 @@ class MenuView extends GetView<MenuController> {
 
   Widget _foodWidget() {
     return BlocBuilder<FoodCubit, FoodState>(
-      bloc: FoodCubit.instead,
+      bloc: foodCubit,
       builder: (context, state) {
         return state.when(
           loading: () {

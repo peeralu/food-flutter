@@ -5,7 +5,12 @@ import 'package:food/app/data/repository/auth_repository.dart';
 import 'login_router.dart';
 
 class LoginController extends AppController<LoginRouter> {
-  final _authRepository = AuthRepository.instead;
+
+  LoginController({
+    required AuthRepository authRepository,
+  }) : _authRepository = authRepository;
+
+  final AuthRepository _authRepository;
 
   var formBuilder = GlobalKey<FormBuilderState>();
 
@@ -46,7 +51,7 @@ class LoginController extends AppController<LoginRouter> {
     Loading.dismiss();
 
     if (response.isSuccessAndHasData) {
-      _authRepository.add(data: response.data!);
+      _authRepository.addLocal(data: response.data!);
       formBuilder.currentState!.reset();
       router.toMenuView();
     } else {

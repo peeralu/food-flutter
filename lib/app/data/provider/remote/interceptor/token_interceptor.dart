@@ -11,7 +11,7 @@ class TokenInterceptors extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (options.headers.containsKey(HttpHeadersCustom.xAccessToken)) {
       options.headers.remove(HttpHeadersCustom.xAccessToken);
-      final storage = AuthRepository.instead.get();
+      final storage = Get.find<AuthRepository>().getLocal();
       options.headers.addAll({
         HttpHeadersCustom.xAccessToken: storage?.accessToken ?? "",
       });
@@ -22,18 +22,18 @@ class TokenInterceptors extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401) {
-      final auth = AuthRepository.instead.get();
-      final response = await AuthRepository.instead.fetchRefetchToken(
+      final auth = Get.find<AuthRepository>().getLocal();
+      final response = await Get.find<AuthRepository>().fetchRefreshToken(
         request: RefreshTokenRequest(refreshToken: auth?.refreshToken ?? ""),
       );
 
       if (response.isSuccessAndHasData) {
-        AuthRepository.instead.add(data: response.data!);
+        Get.find<AuthRepository>().addLocal(data: response.data!);
         final cloneRequest = await _dio.cloneRequest(requestOptions: err.requestOptions);
         return handler.resolve(cloneRequest);
       }
     } else if (err.response?.statusCode == 403) {
-      AuthRepository.instead.delete();
+      Get.find<AuthRepository>().deleteLocal();
     }
     super.onError(err, handler);
   }

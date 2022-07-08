@@ -3,20 +3,20 @@ import 'package:food/app/data/models/response/category.dart';
 import 'package:food/app/data/repository/food_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'category_state.dart';
 part 'category_cubit.freezed.dart';
+part 'category_state.dart';
 
 class CategoryCubit extends Cubit<CategoryState> {
-  static CategoryCubit get instead => Get.find<CategoryCubit>();
 
   List<Category> _categories = [];
   int _current = 0;
+  final FoodRepository _foodRepository;
 
-  CategoryCubit() : super(Loading());
+  CategoryCubit(this._foodRepository) : super(Loading());
 
-  Future<void> fetchCatefory() async {
+  Future<void> fetchCategory() async {
     emit(Loading());
-    final response = await FoodRepository.instead.fetchList();
+    final response = await _foodRepository.fetchList();
     if (response.isSuccessAndHasData) {
       updateData(categories: response.data ?? []);
     } else {

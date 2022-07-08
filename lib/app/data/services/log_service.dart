@@ -2,7 +2,6 @@ import 'package:food/app/core/theme/theme.dart';
 import 'package:food/app/data/enum/log.dart';
 
 class LogService {
-  static LogService get instead => Get.find<LogService>();
 
   static initialize() async {
     Get.put(

@@ -3,23 +3,25 @@ import 'package:food/app/data/models/request/auth/login_request.dart';
 import 'package:food/app/data/models/request/auth/refresh_token_request.dart';
 import 'package:food/app/data/models/request/auth/register_request.dart';
 import 'package:food/app/data/models/response/auth.dart';
-import 'package:food/app/data/provider/local/auth_local.dart';
+import 'package:food/app/data/provider/local/local.dart';
 
-mixin AuthRemote {
+mixin AuthRepository {
   Future<ResultData<Auth>> fetchLogin({required LoginRequest request});
   Future<ResultData<Auth>> fetchRegister({required RegisterRequest request});
-  Future<ResultData<Auth>> fetchRefetchToken({required RefreshTokenRequest request});
+  Future<ResultData<Auth>> fetchRefreshToken({required RefreshTokenRequest request});
+  Auth? getLocal();
+  Future<void> addLocal({required Auth data});
+  Future<void> deleteLocal();
 }
 
-class AuthRepository with AuthRemote {
-  static AuthRepository get instead => Get.find<AuthRepository>();
+class AuthRepositoryImpl with AuthRepository {
 
-  AuthRepository({required ApiService apiService, required AuthLocal authLocal})
+  AuthRepositoryImpl({required ApiService apiService, required MapDataSource<Auth> authLocal})
       : _apiService = apiService,
         _authLocal = authLocal;
 
   final ApiService _apiService;
-  final AuthLocal _authLocal;
+  final MapDataSource<Auth> _authLocal;
 
   /////////////////////////////////////////////////////////////////////////////////////////////
   /// [Remote] ///
@@ -30,7 +32,7 @@ class AuthRepository with AuthRemote {
   }
 
   @override
-  Future<ResultData<Auth>> fetchRefetchToken({required RefreshTokenRequest request}) {
+  Future<ResultData<Auth>> fetchRefreshToken({required RefreshTokenRequest request}) {
     return _apiService.requestData<Auth>(baseRequest: request);
   }
 
@@ -42,15 +44,18 @@ class AuthRepository with AuthRemote {
   /////////////////////////////////////////////////////////////////////////////////////////////
   /// [Local] ///
   /////////////////////////////////////////////////////////////////////////////////////////////
-  Auth? get() {
+  @override
+  Auth? getLocal() {
     return _authLocal.get();
   }
 
-  Future<void> add({required Auth data}) async {
+  @override
+  Future<void> addLocal({required Auth data}) async {
     return await _authLocal.add(data: data);
   }
 
-  Future<void> delete() async {
+  @override
+  Future<void> deleteLocal() async {
     return await _authLocal.delete();
   }
 }

@@ -1,6 +1,5 @@
 import 'package:food/app/core/theme/theme.dart';
 import 'package:food/app/data/models/response/auth.dart';
-import 'package:food/app/data/models/response/category.dart';
 import 'package:food/app/data/provider/local/auth_local.dart';
 import 'package:food/app/data/provider/local/hive.dart';
 import 'package:food/app/data/repository/auth_repository.dart';
@@ -15,12 +14,14 @@ class AppBinding {
     await HiveStorage.initialize();
     final authBox = await HiveStorage.openBox<Auth>();
 
+    final logService = Get.find<LogService>();
+
     /// [ApiService] :: [initialize]
-    final dio = ApiService.createDio();
+    final dio = ApiService.createDio(logService: logService);
     final _apiService = ApiService(dio: dio);
 
     Get.lazyPut<AuthRepository>(
-      () => AuthRepository(
+          () => AuthRepositoryImpl(
         apiService: _apiService,
         authLocal: AuthLocal(database: authBox),
       ),
@@ -29,7 +30,7 @@ class AppBinding {
 
     // final categoryBox = await LocalHive.openBox<Category>();
     Get.lazyPut<FoodRepository>(
-      () => FoodRepository(
+          () => FoodRepositoryImpl(
         apiService: _apiService,
         // database: dbFood,
       ),

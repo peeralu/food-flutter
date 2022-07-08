@@ -3,18 +3,13 @@ import 'package:food/app/core/theme/theme.dart';
 import 'assets_service.dart';
 
 class ImageService {
-  static get instead => Get.find<ImageService>();
-
-  static void initialize() {
-    Get.put(ImageService());
-  }
 
   static Widget loadImage(
-    String? url, {
-    BoxFit fit = BoxFit.cover,
-    Color shimmer = AppColors.darkGrey,
-    String defaultImage = 'logo_black.png',
-  }) {
+      String? url, {
+        BoxFit fit = BoxFit.cover,
+        Color shimmer = AppColors.darkGrey,
+        String defaultImage = 'logo_black.png',
+      }) {
     try {
       if (url == "" || url == null) {
         throw Error();

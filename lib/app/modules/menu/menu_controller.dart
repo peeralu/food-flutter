@@ -8,7 +8,19 @@ import 'bloc/category_cubit.dart';
 import 'menu_reouter.dart';
 
 class MenuController extends AppController<MenuRouter> {
-  final _authRepository = AuthRepository.instead;
+
+  MenuController({
+    required AuthRepository authRepository,
+    required CategoryCubit categoryCubit,
+    required FoodCubit foodCubit,
+  })  : _authRepository = authRepository,
+        _categoryCubit = categoryCubit,
+        _foodCubit = foodCubit;
+
+  final AuthRepository _authRepository;
+  final CategoryCubit _categoryCubit;
+  final FoodCubit _foodCubit;
+
   final formKey = GlobalKey<FormBuilderState>();
   final categoryName = "".obs;
 
@@ -20,14 +32,14 @@ class MenuController extends AppController<MenuRouter> {
   @override
   void onReady() {
     super.onReady();
-    fetchCatefory();
+    fetchCategory();
   }
 
   @override
   void onClose() {}
 
-  fetchCatefory() async {
-    await CategoryCubit.instead.fetchCatefory();
+  fetchCategory() async {
+    await _categoryCubit.fetchCategory();
     onSelect(index: 0);
   }
 
@@ -37,20 +49,20 @@ class MenuController extends AppController<MenuRouter> {
       KeyboardService.hide();
     }
     if (search != null && search.isNotEmpty) {
-      CategoryCubit.instead.hidden(hidden: true);
-      final menus = CategoryCubit.instead.fetchSearch(search: search);
-      FoodCubit.instead.updateData(menus: menus);
+      _categoryCubit.hidden(hidden: true);
+      final menus = _categoryCubit.fetchSearch(search: search);
+      _foodCubit.updateData(menus: menus);
     } else {
-      CategoryCubit.instead.hidden(hidden: false);
-      final menus = CategoryCubit.instead.fetchMenus();
-      FoodCubit.instead.updateData(menus: menus);
+      _categoryCubit.hidden(hidden: false);
+      final menus = _categoryCubit.fetchMenus();
+      _foodCubit.updateData(menus: menus);
     }
   }
 
   onSelect({required int index}) {
-    CategoryCubit.instead.updateIndex(current: index);
-    final menus = CategoryCubit.instead.fetchMenus();
-    FoodCubit.instead.updateData(menus: menus);
+    _categoryCubit.updateIndex(current: index);
+    final menus = _categoryCubit.fetchMenus();
+    _foodCubit.updateData(menus: menus);
   }
 
   void onDetail({required Menu menu}) {
@@ -60,7 +72,7 @@ class MenuController extends AppController<MenuRouter> {
   onLogout() async {
     CustomDialog.logout(
       onConfirm: () async {
-        await _authRepository.delete();
+        await _authRepository.deleteLocal();
         router.toWelcomeView();
       },
     );

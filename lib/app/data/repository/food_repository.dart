@@ -4,15 +4,18 @@ import 'package:food/app/data/models/request/food/food_favorite_request.dart';
 import 'package:food/app/data/models/request/food/food_list_request.dart';
 import 'package:food/app/data/models/response/category.dart';
 
-mixin FoodRemote {
+mixin FoodRepository {
   Future<ResultData<ListCategory>> fetchList();
-  Future<ResultData<MenuDetail>> fetchDetail({required FoodDetailRequest request});
+  Future<ResultData<MenuDetail>> fetchDetail({
+    required FoodDetailRequest request,
+  });
+  Future<ResultData<String>> fetchFavorite({
+    required FoodFavoriteRequest request,
+  });
 }
 
-class FoodRepository with FoodRemote {
-  static FoodRepository get instead => Get.find<FoodRepository>();
-
-  FoodRepository({
+class FoodRepositoryImpl with FoodRepository {
+  FoodRepositoryImpl({
     required ApiService apiService,
     // required Box<Category> database,
   }) : _apiService = apiService;

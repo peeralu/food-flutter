@@ -7,10 +7,10 @@ import 'interceptor/log_interceptor.dart';
 import 'interceptor/token_interceptor.dart';
 
 class ApiService {
-  static Dio createDio() {
+  static Dio createDio({required LogService logService}) {
     Dio dio = Dio();
     dio.options.baseUrl = BASE_URL_API;
-    dio.interceptors.add(LogInterceptors());
+    dio.interceptors.add(LogInterceptors(logService: logService));
     dio.interceptors.add(TokenInterceptors(dio: dio));
     return dio;
   }
