@@ -3,22 +3,16 @@ import 'dart:io';
 import 'package:food/app/core/theme/theme.dart';
 import 'package:food/app/data/models/response/base_response.dart';
 
-import 'interceptor/log_interceptor.dart';
-import 'interceptor/token_interceptor.dart';
+mixin ApiService {
+  Future<ResultData<T>> requestData<T>({required BaseRequest baseRequest});
+}
 
-class ApiService {
-  static Dio createDio({required LogService logService}) {
-    Dio dio = Dio();
-    dio.options.baseUrl = BASE_URL_API;
-    dio.interceptors.add(LogInterceptors(logService: logService));
-    dio.interceptors.add(TokenInterceptors(dio: dio));
-    return dio;
-  }
-
-  ApiService({required Dio dio}) : _dio = dio;
+class ApiServiceImpl with ApiService {
+  ApiServiceImpl({required Dio dio}) : _dio = dio;
 
   final Dio _dio;
 
+  @override
   Future<ResultData<T>> requestData<T>({required BaseRequest baseRequest}) async {
     try {
       if (await _isConnection()) {

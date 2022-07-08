@@ -2,6 +2,8 @@ import 'package:food/app/core/theme/theme.dart';
 import 'package:food/app/data/models/response/auth.dart';
 import 'package:food/app/data/provider/local/auth_local.dart';
 import 'package:food/app/data/provider/local/hive.dart';
+import 'package:food/app/data/provider/remote/interceptor/log_interceptor.dart';
+import 'package:food/app/data/provider/remote/interceptor/token_interceptor.dart';
 import 'package:food/app/data/repository/auth_repository.dart';
 import 'package:food/app/data/repository/food_repository.dart';
 
@@ -17,11 +19,14 @@ class AppBinding {
     final logService = Get.find<LogService>();
 
     /// [ApiService] :: [initialize]
-    final dio = ApiService.createDio(logService: logService);
-    final _apiService = ApiService(dio: dio);
+    Dio dio = Dio();
+    dio.options.baseUrl = BASE_URL_API;
+    dio.interceptors.add(LogInterceptors(logService: logService));
+    dio.interceptors.add(TokenInterceptors(dio: dio));
+    final _apiService = ApiServiceImpl(dio: dio);
 
     Get.lazyPut<AuthRepository>(
-          () => AuthRepositoryImpl(
+      () => AuthRepositoryImpl(
         apiService: _apiService,
         authLocal: AuthLocal(database: authBox),
       ),
