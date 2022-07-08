@@ -5,7 +5,9 @@ import 'package:food/app/data/models/request/food/food_list_request.dart';
 import 'package:food/app/data/models/response/category.dart';
 
 mixin FoodRepository {
-  Future<ResultData<ListCategory>> fetchList();
+  Future<ResultData<ListCategory>> fetchList({
+    required FoodListRequest foodListRequest,
+  });
   Future<ResultData<MenuDetail>> fetchDetail({
     required FoodDetailRequest request,
   });
@@ -28,8 +30,8 @@ class FoodRepositoryImpl with FoodRepository {
   /// [Remote] ///
   /////////////////////////////////////////////////////////////////////////////////////////////
   @override
-  Future<ResultData<ListCategory>> fetchList() {
-    return _apiService.requestData(baseRequest: FoodListRequest());
+  Future<ResultData<ListCategory>> fetchList({required FoodListRequest foodListRequest}) {
+    return _apiService.requestData(baseRequest: foodListRequest);
   }
 
   @override
