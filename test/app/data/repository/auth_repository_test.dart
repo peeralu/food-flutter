@@ -1,5 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:food/app/data/models/request/auth/login_request.dart';
+import 'package:food/app/data/models/request/auth/refresh_token_request.dart';
+import 'package:food/app/data/models/request/auth/register_request.dart';
 import 'package:food/app/data/models/response/auth.dart';
 import 'package:food/app/data/models/response/base_result.dart';
 import 'package:food/app/data/provider/local/local.dart';
@@ -47,6 +49,136 @@ main() {
 
     expect(result.data?.accessToken, accessToken);
     expect(result.data?.refreshToken, refreshToken);
+    expect(result.isSuccess, true);
+    expect(result.isFailure, false);
+  });
+
+  test("fetch login return failure", () async {
+    String email = "email";
+    String password = "password";
+    final loginRequest = LoginRequest(
+      email: email,
+      password: password,
+    );
+    String errorMessage = "Api error.";
+    Failure failure = ApiServiceFailure(message: errorMessage);
+    ResultData<Auth> resultData = ResultData.failure(failure);
+    when(
+      () => apiService.requestData<Auth>(baseRequest: loginRequest),
+    ).thenAnswer((_) async => resultData);
+
+    final result = await repository.fetchLogin(request: loginRequest);
+
+    expect(result.data, null);
+    expect(result.error?.message, errorMessage);
+    expect(result.isSuccess, false);
+    expect(result.isFailure, true);
+  });
+
+  test("fetch register return success", () async {
+    String email = "email";
+    String password = "password";
+    String name = "name";
+    String mobile = "mobile";
+    String address = "address";
+    final registerRequest = RegisterRequest(
+      email: email,
+      password: password,
+      name: name,
+      mobile: mobile,
+      address: address,
+    );
+    String accessToken = "abc123";
+    String refreshToken = "xyz456";
+    Auth auth = Auth(
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+    );
+    ResultData<Auth> resultData = ResultData.success(auth);
+    when(
+      () => apiService.requestData<Auth>(baseRequest: registerRequest),
+    ).thenAnswer((_) async => resultData);
+
+    final result = await repository.fetchRegister(request: registerRequest);
+
+    expect(result.data?.accessToken, accessToken);
+    expect(result.data?.refreshToken, refreshToken);
+    expect(result.isSuccess, true);
+    expect(result.isFailure, false);
+  });
+
+  test("fetch register return error", () async {
+    String email = "email";
+    String password = "password";
+    String name = "name";
+    String mobile = "mobile";
+    String address = "address";
+    final registerRequest = RegisterRequest(
+      email: email,
+      password: password,
+      name: name,
+      mobile: mobile,
+      address: address,
+    );
+    String errorMessage = "Api error.";
+    Failure failure = ApiServiceFailure(message: errorMessage);
+    ResultData<Auth> resultData = ResultData.failure(failure);
+    when(
+      () => apiService.requestData<Auth>(baseRequest: registerRequest),
+    ).thenAnswer((_) async => resultData);
+
+    final result = await repository.fetchRegister(request: registerRequest);
+
+    expect(result.data, null);
+    expect(result.error?.message, errorMessage);
+    expect(result.isSuccess, false);
+    expect(result.isFailure, true);
+  });
+
+  test("fetch refresh token return success", () async {
+    final refreshTokenRequest = RefreshTokenRequest(
+      refreshToken: "123456",
+    );
+    String accessToken = "abc123";
+    String refreshToken = "xyz456";
+    Auth auth = Auth(
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+    );
+    ResultData<Auth> resultData = ResultData.success(auth);
+    when(
+      () => apiService.requestData<Auth>(baseRequest: refreshTokenRequest),
+    ).thenAnswer((_) async => resultData);
+
+    final result = await repository.fetchRefreshToken(
+      request: refreshTokenRequest,
+    );
+
+    expect(result.data?.accessToken, accessToken);
+    expect(result.data?.refreshToken, refreshToken);
+    expect(result.isSuccess, true);
+    expect(result.isFailure, false);
+  });
+
+  test("fetch refresh token return error", () async {
+    final refreshTokenRequest = RefreshTokenRequest(
+      refreshToken: "123456",
+    );
+    String errorMessage = "Api error.";
+    Failure failure = ApiServiceFailure(message: errorMessage);
+    ResultData<Auth> resultData = ResultData.failure(failure);
+    when(
+      () => apiService.requestData<Auth>(baseRequest: refreshTokenRequest),
+    ).thenAnswer((_) async => resultData);
+
+    final result = await repository.fetchRefreshToken(
+      request: refreshTokenRequest,
+    );
+
+    expect(result.data, null);
+    expect(result.error?.message, errorMessage);
+    expect(result.isSuccess, false);
+    expect(result.isFailure, true);
   });
 
   test("get local return null", () {
