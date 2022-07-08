@@ -1,5 +1,4 @@
 import 'package:food/app/core/theme/theme.dart';
-import 'package:food/app/data/models/request/food/food_list_request.dart';
 import 'package:food/app/data/models/response/category.dart';
 import 'package:food/app/data/repository/food_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -17,9 +16,7 @@ class CategoryCubit extends Cubit<CategoryState> {
 
   Future<void> fetchCategory() async {
     emit(Loading());
-    final response = await _foodRepository.fetchList(
-      foodListRequest: FoodListRequest(),
-    );
+    final response = await _foodRepository.fetchList();
     if (response.isSuccessAndHasData) {
       updateData(categories: response.data ?? []);
     } else {

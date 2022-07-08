@@ -52,7 +52,7 @@ main() {
       () => apiService.requestData<ListCategory>(baseRequest: foodListRequest),
     ).thenAnswer((_) async => resultData);
 
-    final result = await repository.fetchList(foodListRequest: foodListRequest);
+    final result = await repository.fetchList(request: foodListRequest);
 
     expect(result.data?.elementAt(0).id, 11);
     expect(result.data?.elementAt(0).name, "name");
@@ -83,7 +83,7 @@ main() {
       () => apiService.requestData<ListCategory>(baseRequest: foodListRequest),
     ).thenAnswer((_) async => resultData);
 
-    final result = await repository.fetchList(foodListRequest: foodListRequest);
+    final result = await repository.fetchList(request: foodListRequest);
 
     expect(result.data, null);
     expect(result.error?.message, errorMessage);
